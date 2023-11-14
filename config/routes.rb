@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   post "/sessions" => "sessions#create"
   post "/pets" => "pets#create"
   patch "/pets/:id" => "pets#update"
+  delete "/pets/:id" => "pets#destroy"
 end

@@ -14,8 +14,8 @@ class PetsController < ApplicationController
   end
 
   def update
-    if current_user
-      @pet = Pet.find_by(id: params[:id])
+    @pet = Pet.find_by(id: params[:id])
+    if current_user.id == @pet.user_id
       @pet.update(
         name: params[:name] || @pet.name,
         age: params[:age] || @pet.age,
@@ -23,7 +23,17 @@ class PetsController < ApplicationController
       )
       render :show
     else
-      render json: { message: "must be logged in to update pets" }
+      render json: { message: "can only update your pets" }
+    end
+  end
+
+  def destroy
+    @pet = Pet.find_by(id: params[:id])
+    if current_user.id == @pet.user_id
+      @pet.destroy
+      render json: { message: "Pet destroyed" }
+    else
+      render json: { message: "must be logged in to destroy pets" }
     end
   end
 end
