@@ -13,6 +13,11 @@ class PetsController < ApplicationController
     end
   end
 
+  def index
+    @pets = Pet.all
+    render :index
+  end
+
   def update
     @pet = Pet.find_by(id: params[:id])
     if current_user.id == @pet.user_id
@@ -33,7 +38,7 @@ class PetsController < ApplicationController
       @pet.destroy
       render json: { message: "Pet destroyed" }
     else
-      render json: { message: "must be logged in to destroy pets" }
+      render json: { message: "can only delete your own pets" }
     end
   end
 end
